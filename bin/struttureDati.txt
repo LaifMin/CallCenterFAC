@@ -1,3 +1,3 @@
 Clienti = HashMap <Numero di telefono , Cliente> 
-Dipendenti = Dipendente : ultimaTelefonata
-Telefonate = Cliente : String (telefono) 
+Dipendenti =  HashMap <id dipendente , Dipendente> 
+Telefonate = HashMap <numero di telefono , data>
