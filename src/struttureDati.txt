@@ -1,3 +1,16 @@
 Clienti = HashMap <Numero di telefono , Cliente> 
 Dipendenti =  HashMap <id dipendente , Dipendente> 
 Telefonate = HashMap <numero di telefono , data>
+
+In clienti ogni cliente (Value) ha come Key un numero di telefono, questo rende piu facile
+il prelievo dei dati base una volta chimata la funzione "chiamata". <Abbiamo accesso diretto e il numero è univoco (inoltre non serve ordinamento)>
+
+In dipendenti ogni dipendente (Value) ha come key un id univoco, facilitando la manipolazione di ogni
+dipendente es. ricerca e modifica dell'ultima chiamata. < Ricerca rapida e accesso diretto >
+
+In telefonate ogni Data ha il suo numero di telefono come Key, usando un HashMap in questo caso 
+si puo subito risalire alla data dato il numero del cliente in chiamata. < Accesso diretto e sovrascrittura utile per tenere solo l'ultima data>
+
+
+Utilizzando un HashMap per ogni caso si possono evitare dublicazioni, se si tenta di inserire un valore
+nuovo associato a una chiave gia esistente il vecchio valore verra sovrascritto. 

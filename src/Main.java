@@ -1,6 +1,3 @@
-
-
-
 public class Main {
 
 
@@ -14,18 +11,29 @@ public class Main {
         societa.addDipendente(d1);
         societa.addDipendente(d2);
         societa.addCliente(c1);
+        societa.addCliente(c2);
         societa.addTelefonata("1234567890");
+        societa.addTelefonata("0987654321");
         d1.setLastCallAnswered("1234567890");
+        d2.setLastCallAnswered("0987654321");
     
         String[] infos = societa.chiamata(c1);
-        for (String info: infos){
-            System.out.println(info);
-        }
+        printInfo(infos);
+        System.out.println("\n");
+        String[] infos2 = societa.chiamata(c2);
+        printInfo(infos2);
         /*societa.removeDipendente("1");
         societa.removeCliente("1");
         societa.removeTelefonata("1234567890"); */
         
         
+    }
+
+
+    private static void printInfo(String[] infos) {
+        for (String info: infos){
+            System.out.println(info);
+        }
     }
 
 
