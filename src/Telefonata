@@ -1,0 +1,44 @@
+import java.util.Date;
+
+public class Telefonata {
+    private String numTelefono;
+    private String data;
+    private String idDipendente;
+
+    public Telefonata(String numTelefono, String idDipendente){
+        this.idDipendente = idDipendente;
+        this.numTelefono = numTelefono;
+        Date date = new Date();
+        this.data = date.toString();
+    }
+
+    public String getIdDipendente() {
+        return idDipendente;
+    }
+
+    public void setIdDipendente(String idDipendente) {
+        this.idDipendente = idDipendente;
+    }
+
+    public String getNumTelefono() {
+        return numTelefono;
+    }
+
+    public void setNumTelefono(String numTelefono) {
+        this.numTelefono = numTelefono;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    @Override
+    public String toString() {
+            return "Il numero chiamante è: "+numTelefono+ "\nLa data e l'ora in cui è stata effettuata la chiamata è: "+data + "ID del dipendente" +
+            "che ha gestito la chiamata è: " + idDipendente;
+    }
+}
