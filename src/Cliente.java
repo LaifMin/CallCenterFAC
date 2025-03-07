@@ -1,5 +1,3 @@
-
-
 public class Cliente {
 
     private String nome;
@@ -17,7 +15,7 @@ public class Cliente {
         this.indirizzo = indirizzo;
         this.citta = citta;
         this.telefono = telefono;
-        
+
     }
 
 
@@ -88,14 +86,4 @@ public class Cliente {
         this.citta = citta;
     }
 
-
-
-    
-
-
-    
-
-
-    
-    
 }
