@@ -3,13 +3,13 @@ public class Dipendente {
     private String codiceDipendente;
     private String nome;
     private String cognome;
-    private String lastCallAnswered;
     
+
     public Dipendente(String codiceDipendente, String nome, String cognome) {
         this.codiceDipendente = codiceDipendente;
         this.nome = nome;
         this.cognome = cognome;
-        
+
     }
 
     public String getId() {
@@ -36,13 +36,7 @@ public class Dipendente {
         this.cognome = cognome;
     }
 
-    public String getLastCallAnswered() {
-        return lastCallAnswered;
-    }
+   
 
-    public void setLastCallAnswered(String lastCallAnswered) {
-        this.lastCallAnswered = lastCallAnswered;
-    }
-    
-    
+
 }
