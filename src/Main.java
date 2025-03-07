@@ -10,7 +10,7 @@ public class Main {
         societa.addDipendente(d2);
         societa.addCliente(c1);
         societa.addCliente(c2);
-        //societa.addTelefonata(c1);
+        societa.addTelefonata(c1);
         societa.addTelefonata(c2);
 
        
@@ -25,6 +25,9 @@ public class Main {
         societa.removeCliente("1");
         societa.removeTelefonata("1234567890"); */
 
+        for(Telefonata t: societa.getTelefonate()){
+            System.out.println(t.toString());
+        }
 
     }
 
