@@ -1,15 +1,17 @@
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Date;
+import java.util.List;
 
-public class Societa {
+public class Società {
     private HashMap<String, Dipendente> dipendenti;
     private HashMap<String, Cliente> clienti;
-    private HashMap<String, String> telefonate;
+    private List<Telefonata> telefonate;
+    public InfoClass info = new InfoClass();
 
-    public Societa() {
+    public Società() {
         this.dipendenti = new HashMap<>();
         this.clienti = new HashMap<>();
-        this.telefonate = new HashMap<>();
+        this.telefonate = new ArrayList<>();
     }
 
     public void addDipendente(Dipendente d) {
@@ -20,13 +22,19 @@ public class Societa {
         this.clienti.put(c.getTelefono(), c);
     }
 
-    public void addTelefonata(String telefono) {
-        Date date = new Date();
-        String data = date.toString();
-        this.telefonate.put(telefono, data);
+    public void addTelefonata(Cliente c) {
+        if(!clienti.containsKey(c.getTelefono())){
+            clienti.put(c.getTelefono(),c);
+        }
+        Dipendente d = null;
+        if(dipendenti != null){
+            d = info.assignEmployeeC(dipendenti);
+        }
+        this.telefonate.add(new Telefonata(c.getTelefono(),d.getId()));
     }
 
     public void removeDipendente(String id) {
+
         this.dipendenti.remove(id);
     }
 
@@ -39,7 +47,6 @@ public class Societa {
     }
 
     public String[] chiamata(Cliente cliente) {
-        InfoClass info = new InfoClass();
         return info.chiamataInfo(cliente, dipendenti, clienti, telefonate);
     }
 }
