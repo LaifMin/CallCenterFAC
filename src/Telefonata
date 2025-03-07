@@ -38,7 +38,7 @@ public class Telefonata {
 
     @Override
     public String toString() {
-            return "Il numero chiamante è: "+numTelefono+ "\nLa data e l'ora in cui è stata effettuata la chiamata è: "+data + "ID del dipendente" +
+            return "Il numero chiamante è: "+numTelefono+ "\nLa data e l'ora in cui è stata effettuata la chiamata è: "+data + "\n ID del dipendente" +
             "che ha gestito la chiamata è: " + idDipendente;
     }
 }
