@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class InfoClass {
 
@@ -10,7 +7,21 @@ public class InfoClass {
             "data ultima telefonata", "nome dipendente", "cognome dipendente", "id dipendente"
     };
 
+   //--------------------------
+    private final int NOME = 0;
+    private final int COGNOME = 1;
+    private final int CODICE = 2;
+    private final int INDIRIZZO = 3;
+    private final int CITTA = 4;
+    private final int TELEFONO = 5;
+    private final int DATA_ULTIMA_TELEFONATA = 6;
+    private final int NOME_DIPENDENTE = 7;
+    private final int COGNOME_DIPENDENTE = 8;
+    private final int ID_DIPENDENTE = 9;
+
+    //---------------------------
     private String[] infos = new String[AGGIUNTE_INFOS.length];
+    
 
     public InfoClass() {
 
@@ -22,12 +33,12 @@ public class InfoClass {
 
 
     public String[] chiamataInfo(Cliente cliente, HashMap<String, Dipendente> dipendenti,
-            HashMap<String, Cliente> clienti, HashMap<String, String> telefonate) {
+                                 HashMap<String, Cliente> clienti, List<Telefonata> telefonate) {
 
         resetInfoArray(); //resetto l'array di info
-        String assignedEmployeeId = assignEmployee(dipendenti); //assegno un dipendente
+        assignEmployee(dipendenti); //assegno un dipendente
         analyzeCliente(cliente, clienti, telefonate, dipendenti);    //analizzo il cliente
-        aggiornaUltimaChiamata(assignedEmployeeId, cliente.getTelefono(), dipendenti); //aggiorno l'ultima chiamata del dipendente
+      
         return assignEtichette(); // output delle info con le etichette accanto
     }
 
@@ -50,8 +61,19 @@ public class InfoClass {
 
     }
 
+    public Dipendente assignEmployeeC(HashMap<String, Dipendente> dipendenti) {
+        ArrayList<Dipendente> employeeIds = new ArrayList<>(dipendenti.values());
+
+        if (employeeIds.isEmpty()) {
+            throw new IllegalStateException("Nessun dipendente disponibile");
+        }
+
+        return employeeIds.get((int) (Math.random() * employeeIds.size())); //scelgo a random un dipendente
+
+    }
+
     private void analyzeCliente(Cliente cliente, HashMap<String, Cliente> clienti,
-            HashMap<String, String> telefonate, HashMap<String, Dipendente> dipendenti) {
+                                List <Telefonata> telefonate, HashMap<String, Dipendente> dipendenti) {
         String telefono = cliente.getTelefono();
 
         if (clientExists(telefono, clienti)) {
@@ -80,60 +102,63 @@ public class InfoClass {
     }
 
     private void clienteEsistente(String telefono, HashMap<String, Cliente> clienti,
-            HashMap<String, String> telefonate, HashMap<String, Dipendente> dipendenti) {
+                                  List<Telefonata>telefonate, HashMap<String, Dipendente> dipendenti) {
         Cliente c = clienti.get(telefono);
+        trovaUltimaChiamata(telefono, dipendenti, telefonate);
         caricamentoInfoCliente(c);
         storicoChiamate(telefono, telefonate);
-        trovaUltimaChiamata(telefono, dipendenti);
+
     }
 
     private void nuovoCliente(Cliente cliente, String telefono,
-            HashMap<String, Cliente> clienti,
-            HashMap<String, String> telefonate) {
+                              HashMap<String, Cliente> clienti,
+                              List <Telefonata> telefonate) {
         clienti.put(telefono, cliente);
-        telefonate.put(telefono, "Nuovo cliente - nessuna chiamata precedente");
+        telefonate.add(new Telefonata(telefono, infos[9]));
         caricamentoInfoCliente(cliente);
-        infos[6] = "Cliente appena registrato";
+        infos[DATA_ULTIMA_TELEFONATA] = "Cliente appena registrato";
     }
 
     private void caricamentoInfoCliente(Cliente c) {
-        infos[0] = c.getNome();
-        infos[1] = c.getCognome();
-        infos[2] = c.getCodice();
-        infos[3] = c.getIndirizzo();
-        infos[4] = c.getCitta();
-        infos[5] = c.getTelefono();
+        infos[NOME] = c.getNome();
+        infos[COGNOME] = c.getCognome();
+        infos[CODICE] = c.getCodice();
+        infos[INDIRIZZO] = c.getIndirizzo();
+        infos[CITTA] = c.getCitta();
+        infos[TELEFONO] = c.getTelefono();
     }
 
-    private void storicoChiamate(String telefono, HashMap<String, String> telefonate) {
-        if (telefonate.containsKey(telefono)) {
-            infos[6] = telefonate.get(telefono);
+    private void storicoChiamate(String telefono, List<Telefonata> telefonate) {
+        boolean trovata = false;
+        Telefonata te = null;
+        for (Telefonata t: telefonate){
+            if(t.getNumTelefono().equals(telefono)){
+                trovata = true;
+                te = t;
+            }
+        }
+
+        if (trovata) {
+            infos[DATA_ULTIMA_TELEFONATA] = te.getData();
         } else {
-            infos[6] = "Nessuna telefonata registrata";
+            infos[DATA_ULTIMA_TELEFONATA] = "Nessuna telefonata registrata";
         }
     }
 
-    private void trovaUltimaChiamata(String telefono, HashMap<String, Dipendente> dipendenti) {
-        for (Dipendente d : dipendenti.values()) {
-            if (telefono.equals(d.getLastCallAnswered())) {
-                salvaInfoDipendente(d);
+    private void trovaUltimaChiamata(String telefono, HashMap<String, Dipendente> dipendenti, List<Telefonata> telefonate) {
+        for (Telefonata t: telefonate) {
+            if (t.getNumTelefono().equals(telefono)) {
+                salvaInfoDipendente(dipendenti.get(t.getIdDipendente()));
                 break;
             }
         }
     }
 
     private void salvaInfoDipendente(Dipendente d) {
-        infos[7] = d.getNome();
-        infos[8] = d.getCognome();
-        infos[9] = d.getId();
+        infos[NOME_DIPENDENTE] = d.getNome();
+        infos[COGNOME_DIPENDENTE] = d.getCognome();
+        infos[ID_DIPENDENTE] = d.getId();
     }
 
-    private void aggiornaUltimaChiamata(String employeeId, String telefono,
-            HashMap<String, Dipendente> dipendenti) {
-        Dipendente d = dipendenti.get(employeeId);
-        if (d != null) {
-            d.setLastCallAnswered(telefono);
-        }
-    }
-
-}
+    
+} 
